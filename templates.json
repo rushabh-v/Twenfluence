@@ -1,0 +1,23 @@
+{
+    "wrapper_template": {
+        "hashtag": "",
+        "threshold": 0,
+        "data": []
+    },
+    "user_template": {
+        "username": "",
+        "name": "",
+        "n_followers": 0,
+        "n_tweets": 0,
+        "total_likes": 0,
+        "total_retweets": 0,
+        "user_score": 0,
+        "tweets": []
+    },
+    "tweet_template": {
+        "link": "",
+        "n_likes": 0,
+        "n_retweets": 0,
+        "score": 0
+     }
+}
