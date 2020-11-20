@@ -74,7 +74,7 @@ def get_top_influencers(hashtag, threshold, users, tweets):
     wrapper["data"] = most_influential
 
     # Temporary (until the frontend is not done)
-    prettyJson = json.dumps(wrapper, indent=4, separators=(',', ': '), sort_keys=True)
+    prettyJson = json.dumps(wrapper, indent=4, separators=(',', ': '))
     print(prettyJson)
 
     return wrapper
