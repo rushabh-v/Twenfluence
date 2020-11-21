@@ -9,4 +9,4 @@ if __name__ == '__main__':
     language = ""
 
     users, tweets = scrapper.get_users_and_tweets(hashtag)
-    top_influencers = scrapper.get_top_influencers(hashtag, threshold, users, tweets)
+    top_influencers, top_tweets = scrapper.get_top_influencers(hashtag, threshold, users, tweets)

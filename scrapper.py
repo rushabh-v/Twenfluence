@@ -4,6 +4,7 @@ from collections import defaultdict
 
 from passwords import TWITTER_KEY, TWITTER_SECRET
 
+import embed
 
 auth = tweepy.OAuthHandler(TWITTER_KEY, TWITTER_SECRET)
 api = tweepy.API(auth)
@@ -33,21 +34,29 @@ def get_users_and_tweets(hashtag):
 
 
 # Updates the list in-place
-def get_last_at_pos(arr):
+def get_last_at_pos(arr, minimize_attr):
     for i in range(len(arr)-1, 0, -1):
-        if arr[i]["user_score"] > arr[i-1]["user_score"]:
+        if arr[i][minimize_attr] > arr[i-1][minimize_attr]:
             arr[i], arr[i-1] = arr[i-1], arr[i]
 
 
 def get_top_influencers(hashtag, threshold, users, tweets):
 
-    cur_min, most_influential = 0, []
+    cur_min, most_influential= 0, []
+    cur_min_tweet, top_tweets = 0, []
     for username in users:
         total_retweets, total_likes, user_score = 0, 0, 0
         for id_ in users[username]:
             user_score += tweets[id_]["score"]
             total_likes += tweets[id_]["n_likes"]
             total_retweets += tweets[id_]["n_retweets"]
+            if tweets[id_]["score"] > cur_min_tweet:
+                if len(top_tweets) < threshold:
+                    top_tweets.append(tweets[id_])
+                else:
+                    top_tweets[-1] = tweets[id_]
+                get_last_at_pos(top_tweets, "score")
+                cur_min_tweet = top_tweets[-1]["score"]
 
         if user_score > cur_min:
             USER = api.get_user(username)
@@ -66,15 +75,18 @@ def get_top_influencers(hashtag, threshold, users, tweets):
             else:
                 most_influential[-1] = usr
 
-            get_last_at_pos(most_influential)
+            get_last_at_pos(most_influential, "user_score")
             cur_min = most_influential[-1]["user_score"]
 
     wrapper["hashtag"] = hashtag
     wrapper["threshold"] = threshold
     wrapper["data"] = most_influential
 
+    for tweet in top_tweets:
+        tweet["html"] = embed.get_tweet_html(tweet["link"])
     # Temporary (until the frontend is not done)
     prettyJson = json.dumps(wrapper, indent=4, separators=(',', ': '))
     print(prettyJson)
 
-    return wrapper
+    print(top_tweets[0])
+    return wrapper, top_tweets
