@@ -50,7 +50,8 @@ def get_top_influencers(hashtag, threshold, users, tweets):
             user_score += tweets[id_]["score"]
             total_likes += tweets[id_]["n_likes"]
             total_retweets += tweets[id_]["n_retweets"]
-            if tweets[id_]["score"] > cur_min_tweet:
+            
+            if tweets[id_]["score"] > cur_min_tweet or len(top_tweets) < threshold:
                 if len(top_tweets) < threshold:
                     top_tweets.append(tweets[id_])
                 else:
@@ -58,7 +59,7 @@ def get_top_influencers(hashtag, threshold, users, tweets):
                 get_last_at_pos(top_tweets, "score")
                 cur_min_tweet = top_tweets[-1]["score"]
 
-        if user_score > cur_min:
+        if user_score > cur_min or len(most_influential) < threshold:
             USER = api.get_user(username)
             usr = user_template.copy()
             usr["username"] = username
@@ -74,7 +75,6 @@ def get_top_influencers(hashtag, threshold, users, tweets):
                 most_influential.append(usr)
             else:
                 most_influential[-1] = usr
-
             get_last_at_pos(most_influential, "user_score")
             cur_min = most_influential[-1]["user_score"]
 
