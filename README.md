@@ -1,4 +1,4 @@
-# Twenfluence - Twitter + Influence
+# Twenfluence: Twitter + Influence
 
 ![logo](img/logo.png)
 
