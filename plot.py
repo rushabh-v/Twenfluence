@@ -31,5 +31,6 @@ def get_graph(top_influencers):
             tweet_scores[user] = scores
 
     figure = get_plot(tweet_scores)
-    figure.savefig("output.png", bbox_inches = "tight")
+    figure.savefig("./img/output.png", bbox_inches = "tight")
+    # figure.savefig("./output.png", bbox_inches = "tight")
     return figure

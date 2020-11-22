@@ -28,6 +28,7 @@ def experts():
     threshold = 10
     users, tweets = scrapper.get_users_and_tweets(hashtag)
     top_influencers, top_tweets = scrapper.get_top_influencers(hashtag, threshold, users, tweets)
+    figure = plot.get_graph(top_influencers)
   
     row_template = "<tr> \
                         <td> {0} </td> \
@@ -60,9 +61,8 @@ def experts():
     text = text.replace("Top tweets", ''.join(top_tweets_html))
     text = text.replace("TI table", users_html)
     text = text.replace("_hashtag_", hashtag)
-    figure = plot.get_graph(top_influencers)
 
     return text
 
 if __name__ == "__main__":
-  app.run(debug=True)
+    app.run(debug=True)
